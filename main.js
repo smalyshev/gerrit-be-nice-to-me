@@ -33,9 +33,9 @@ function updateReviewList() {
 		} else {
 			className = false;
 			icon = $( this ).find( '.cAPPROVAL .gwt-Image' );
-			if ( icon && icon.attr( 'style' ) ) {
+			if ( icon && icon.attr( 'src' ) ) {
 				// omg forgive me. Relying on data uri to tell if an X is present
-				if ( icon.attr( 'style' ).indexOf( 'IStCjmuQs0GGgTSCDMSwFWQazBayEgndAQAqW6dvdnJ0RwAAAABJRU' ) > -1 ) {
+				if ( icon.attr( 'src' ).indexOf( '9en6Fj4TxzxvPC/Uw2G2MEXjV//kEpgRFM89AAAAABJRU5ErkJggg==' ) > -1 ) {
 					className = 'negscore';
 					color = 'red';
 				// check for 2 images now knowing that neither is an X
@@ -65,23 +65,24 @@ function listener( ev ) {
 	var icon, style,
 		$t = $( ev.target ), $owner, author, action;
 
-	if ( $t.hasClass( 'com-google-gerrit-client-change-Message_BinderImpl_GenCss_style-messageBox' ) ) {
-		colorComment( $t );
-	} else if ( $t.hasClass( 'commentPanel' ) ) { // force open comment panel
-		author = $t.find( '.commentPanelAuthorCell' ).text();
-		action = $t.find( '.commentPanelSummary' ).text();
-		if ( author === 'jenkins-bot' ||
-			action.indexOf( 'Uploaded patch set' ) === 0  ||
-			action.match( /was rebased$/ ) ) {
-			 // make jenkins comments less prominent
-			$t.find( '.commentPanelHeader' ).css( 'opacity', 0.6 );
-		} else {
-			$t.find( '.commentPanelContent' ).show();
-		}
-		colorComment( $t );
-	} else if ( $t.hasClass( 'gwt-DisclosurePanel' ) ) { // open patchset
-		$( '.gwt-DisclosurePanel-closed tbody tr' ).trigger( 'click' ); // HACK! not optimal
-	} else if ( $t.children( '.changeTable' ).length > 0 ) {
+	// if ( $t.hasClass( 'com-google-gerrit-client-change-Message_BinderImpl_GenCss_style-messageBox' ) ) {
+	// 	colorComment( $t );
+	// } else if ( $t.hasClass( 'commentPanel' ) ) { // force open comment panel
+	// 	author = $t.find( '.commentPanelAuthorCell' ).text();
+	// 	action = $t.find( '.commentPanelSummary' ).text();
+	// 	if ( author === 'jenkins-bot' ||
+	// 		action.indexOf( 'Uploaded patch set' ) === 0  ||
+	// 		action.match( /was rebased$/ ) ) {
+	// 		 // make jenkins comments less prominent
+	// 		$t.find( '.commentPanelHeader' ).css( 'opacity', 0.6 );
+	// 	} else {
+	// 		$t.find( '.commentPanelContent' ).show();
+	// 	}
+	// 	colorComment( $t );
+	// } else if ( $t.hasClass( 'gwt-DisclosurePanel' ) ) { // open patchset
+	// 	$( '.gwt-DisclosurePanel-closed tbody tr' ).trigger( 'click' ); // HACK! not optimal
+	// } else
+	if ( $t.children( '.changeTable' ).length > 0 ) {
 
 		var comments = 0;
 		$t.find( '.changeTable .commentCell' ).each( function() { // count comments
@@ -99,7 +100,7 @@ function listener( ev ) {
 			appendTo( $owner.find( 'tr' ).eq( 0 ).find( 'td' ).eq( 2 ) );
 		$owner.find( 'tbody tr' ).trigger( 'click' );
 	} else if ( $t.hasClass( 'gwt-Image' ) ) {
-		var dataUri = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAJCAYAAAAGuM1UAAAAJElEQVR42mNgwAT/GUgE/0nV9J9UTf9J1fSfVE0U2UC7UMIJAG5zGOglYYULAAAAAElFTkSuQmCC';
+		var dataUri = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA4ElEQVR42tXSPQqDQBQEYIvc2zIIEgvFRggS0ghR1IigIFhp478oKIISPULqTHY9gSZN8rot3sfO7DLMz01d18+qqo7fACDAK8uyz5CyLLEsC9q2RRRFp91AkiSY5xnTNCHPc/i+f94FxHGMcRzR9z2GYQA967p+3QyEYbgukh5A+6BRgiCAqqqPTYDneei6DqTENQJFXNeFoij3TYBlWWiaBmmaghbqOA5kWb6xLHvYBGiati4WRQHbtiFJkrarRJJ1vb5pmhAE4bL7GUlWGIYBnufVjz6SKIrgOE5h/mbeGSmtDSosfpMAAAAASUVORK5CYII=';
 		var remoteUri = 'https://gerrit.wikimedia.org/r/gerrit_ui/clear.cache.gif';
 		var src = $t.attr( 'src' );
 		// hacky way of detecting page load on my reviews page
